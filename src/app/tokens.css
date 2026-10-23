@@ -1,0 +1,355 @@
+/* ==========================================================================
+   PinjamAset Design System — Design Tokens
+   Source: Figma "Hackathon SALT 2026" (file eXpjbrqAd2Gcema8Mb6HNJ)
+   Collections: Primitives → Color (semantic) → Component, plus Spacing,
+                Radius, Size.
+
+   Naming: Figma slash-names are flattened to dashes and namespaced by type,
+   so `text/primary` becomes `--color-text-primary` and is used as
+   `text-text-primary`. This is a mechanical 1:1 map — no renaming.
+
+   The three-layer alias chain from Figma is preserved as comments rather than
+   live `var()` indirection, because Tailwind resolves these at build time and
+   175 alias hops would be dead weight in the output. Each layer records what
+   it points at, so the chain stays re-derivable from Figma.
+   ========================================================================== */
+
+@import "tailwindcss";
+
+/* --------------------------------------------------------------------------
+   SPACING — CLASS NAMES ARE PIXEL VALUES
+
+   Figma's Spacing collection is literal pixels (`space/16` = 16px). Those
+   names are preserved verbatim here, so the class name equals the rendered
+   value:
+
+       px-2  =  2px        px-16 = 16px
+       px-4  =  4px        px-20 = 20px
+       px-8  =  8px        px-24 = 24px
+       px-12 = 12px        px-32 = 32px
+
+   This REPLACES Tailwind's default rem scale (`--spacing: 0.25rem`, from which
+   `p-4` would be 1rem). An earlier revision flattened the Figma names onto
+   Tailwind's own steps, which made every class lie: `px-8` rendered 8px where
+   32px was intended, and steps with no Figma equivalent (`h-10`, `w-60`,
+   `gap-3`) silently resolved to nonsense like 10px, 60px and 3px.
+
+   Do not reintroduce Tailwind-style shorthand here. If a value you need is not
+   on this list, add it as a Figma token rather than guessing a step.
+   -------------------------------------------------------------------------- */
+
+@theme {
+  /* ======================================================================
+     1. PRIMITIVES (32) — raw palette
+     Hidden from component pickers in Figma. Use semantic tokens in screens.
+     ====================================================================== */
+
+  --color-ink: #13172e;
+  --color-white: #ffffff;
+
+  --color-slate-100: #dbe0f0;
+  --color-slate-200: #d1d6e5;
+  --color-slate-300: #b8bfd6;
+  --color-slate-400: #949eb0;
+  --color-slate-500: #5c667d;
+  --color-slate-600: #596375;
+  --color-slate-800: #262e40;
+
+  --color-purple-100: #ede8ff;
+  --color-purple-200: #bfb8ff;
+  --color-purple-600: #5f47d1;
+  --color-purple-700: #4a35b8;
+
+  --color-blue-50: #ebf2ff;
+  --color-blue-600: #336ee8;
+  --color-blue-700: #1f4fc0;
+
+  --color-green-100: #def7e8;
+  --color-green-600: #168f5e;
+  --color-green-700: #0f6b47;
+
+  --color-amber-100: #fff2d6;
+  --color-amber-700: #b36608;
+  --color-amber-800: #8f4f05;
+
+  --color-red-100: #ffe8e8;
+  --color-red-600: #bf333d;
+
+  --color-gray-50: #f7fafc;
+  --color-gray-100: #edf0f5;
+  --color-gray-150: #dbe0e8;
+  --color-gray-200: #dee2ea;
+
+  --color-canvas: #f7f8fb;
+  --color-navy-600: #4a5278;
+  --color-navy-800: #29335c;
+  --color-navy-900: #1f294f;
+
+  /* ======================================================================
+     2. COLOR — semantic (48), Light mode only
+     Every value below is a Figma alias to a primitive above.
+     ====================================================================== */
+
+  /* Text */
+  --color-text-primary: var(--color-ink); /* → ink */
+  --color-text-secondary: var(--color-slate-800); /* → slate/800 */
+  --color-text-subtle: var(--color-slate-600); /* → slate/600 */
+  --color-text-muted: var(--color-slate-500); /* → slate/500 */
+  --color-text-disabled: var(--color-slate-400); /* → slate/400 */
+  --color-text-inverse: var(--color-white); /* → white */
+  --color-text-brand: var(--color-purple-600); /* → purple/600 */
+  --color-text-success: var(--color-green-600); /* → green/600 */
+  --color-text-warning: var(--color-amber-700); /* → amber/700 */
+  --color-text-danger: var(--color-red-600); /* → red/600 */
+  --color-text-info: var(--color-blue-600); /* → blue/600 */
+
+  /* Text on inverse surfaces */
+  --color-text-inverse-brand: var(--color-purple-200); /* → purple/200 */
+  --color-text-inverse-secondary: var(--color-slate-100); /* → slate/100 */
+  --color-text-inverse-subtle: var(--color-slate-200); /* → slate/200 */
+  --color-text-inverse-muted: var(--color-slate-300); /* → slate/300 */
+
+  /* Surface */
+  --color-surface-default: var(--color-white); /* → white */
+  --color-surface-subtle: var(--color-gray-50); /* → gray/50 */
+  --color-surface-canvas: var(--color-canvas); /* → canvas */
+  --color-surface-disabled: var(--color-gray-100); /* → gray/100 */
+  --color-surface-brand-subtle: var(--color-purple-100); /* → purple/100 */
+  --color-surface-inverse: var(--color-navy-900); /* → navy/900 */
+  --color-surface-inverse-raised: var(--color-navy-800); /* → navy/800 */
+  --color-surface-placeholder: var(--color-gray-150); /* → gray/150 */
+  --color-surface-info: var(--color-blue-50); /* → blue/50 */
+  --color-surface-success: var(--color-green-100); /* → green/100 */
+  --color-surface-warning: var(--color-amber-100); /* → amber/100 */
+  --color-surface-danger: var(--color-red-100); /* → red/100 */
+  --color-surface-scrim: var(--color-ink); /* → ink */
+
+  /* Action + border */
+  --color-action-primary: var(--color-purple-600); /* → purple/600 */
+  --color-action-primary-hover: var(--color-purple-700); /* → purple/700 */
+  --color-action-destructive: var(--color-red-600); /* → red/600 */
+
+  --color-border-default: var(--color-gray-200); /* → gray/200 */
+  --color-border-focus: var(--color-purple-600); /* → purple/600 */
+  --color-border-error: var(--color-red-600); /* → red/600 */
+  --color-border-success: var(--color-green-600); /* → green/600 */
+  --color-border-input: var(--color-slate-500); /* → slate/500 */
+  --color-border-inverse: var(--color-navy-600); /* → navy/600 */
+
+  /* Status pairs */
+  --color-status-success-bg: var(--color-green-100);
+  --color-status-success-fg: var(--color-green-700);
+  --color-status-warning-bg: var(--color-amber-100);
+  --color-status-warning-fg: var(--color-amber-800);
+  --color-status-danger-bg: var(--color-red-100);
+  --color-status-danger-fg: var(--color-red-600);
+  --color-status-info-bg: var(--color-blue-50);
+  --color-status-info-fg: var(--color-blue-700);
+  --color-status-neutral-bg: var(--color-gray-100);
+  --color-status-neutral-fg: var(--color-slate-600);
+
+  /* ======================================================================
+     3. COMPONENT tokens (62) — per-component bindings
+     Each aliases a semantic Color token (or a Size/Radius token).
+     ====================================================================== */
+
+  /* Button */
+  --color-button-primary-bg: var(--color-action-primary);
+  --color-button-primary-bg-hover: var(--color-action-primary-hover);
+  --color-button-primary-text: var(--color-white); /* → text/on-action */
+  --color-button-primary-bg-disabled: var(--color-surface-disabled);
+  --color-button-text-disabled: var(--color-text-disabled);
+  --color-button-secondary-bg: var(--color-surface-default);
+  --color-button-secondary-bg-hover: var(--color-surface-subtle);
+  --color-button-secondary-border: var(--color-border-default);
+  --color-button-secondary-text: var(--color-text-primary);
+  --color-button-tertiary-text: var(--color-text-brand);
+  --color-button-tertiary-bg-hover: var(--color-surface-brand-subtle);
+  --color-button-destructive-bg: var(--color-action-destructive);
+  --color-button-destructive-text: var(--color-white);
+  --radius-button: 8px; /* Figma: button/radius */
+  --spacing-button-padding-x: 16px; /* Figma: button/padding-x */
+  --spacing-button-gap: 8px; /* Figma: button/gap */
+  --spacing-button-height: 40px; /* Figma: button/height → size/control/md */
+
+  /* Input */
+  --color-input-bg: var(--color-surface-default);
+  --color-input-bg-disabled: var(--color-surface-disabled);
+  --color-input-border: var(--color-border-input);
+  --color-input-border-focus: var(--color-border-focus);
+  --color-input-border-error: var(--color-border-error);
+  --color-input-text: var(--color-text-primary);
+  --color-input-placeholder: var(--color-text-muted);
+  --color-input-label: var(--color-text-primary);
+  --color-input-helper: var(--color-text-subtle);
+  --color-input-error-text: var(--color-text-danger);
+  --radius-input: 8px; /* Figma: input/radius */
+  --spacing-input-padding-x: 12px; /* Figma: input/padding-x */
+  --spacing-input-height: 40px; /* Figma: input/height → size/control/md */
+
+  /* Card */
+  --color-card-bg: var(--color-surface-default);
+  --color-card-border: var(--color-border-default);
+  --color-card-bg-selected: var(--color-surface-brand-subtle);
+  --radius-card: 12px; /* Figma: card/radius */
+  --spacing-card-padding: 20px; /* Figma: card/padding */
+
+  /* Table */
+  --color-table-header-bg: var(--color-surface-subtle);
+  --color-table-header-text: var(--color-text-secondary);
+  --color-table-row-bg: var(--color-surface-default);
+  --color-table-row-hover: var(--color-surface-subtle);
+  --color-table-border: var(--color-border-default);
+  --spacing-table-cell-padding-x: 16px; /* Figma: table/cell-padding-x */
+  --spacing-table-cell-padding-y: 12px; /* Figma: table/cell-padding-y */
+
+  /* Nav */
+  --color-nav-bg: var(--color-surface-inverse);
+  --color-nav-item-active-bg: var(--color-surface-inverse-raised);
+  --color-nav-text: var(--color-text-inverse-secondary);
+  --color-nav-text-active: var(--color-text-inverse-brand);
+
+  /* Modal */
+  --color-modal-bg: var(--color-surface-default);
+  --color-modal-scrim: var(--color-surface-scrim);
+  --color-page-bg: var(--color-surface-canvas);
+  --radius-modal: 12px; /* Figma: modal/radius */
+
+  /* Badge / Status Badge */
+  --radius-badge: 999px; /* Figma: badge/radius */
+  --spacing-badge-padding-x: 8px; /* Figma: badge/padding-x */
+  --color-badge-success-bg: var(--color-status-success-bg);
+  --color-badge-success-fg: var(--color-status-success-fg);
+  --color-badge-warning-bg: var(--color-status-warning-bg);
+  --color-badge-warning-fg: var(--color-status-warning-fg);
+  --color-badge-danger-bg: var(--color-status-danger-bg);
+  --color-badge-danger-fg: var(--color-status-danger-fg);
+  --color-badge-info-bg: var(--color-status-info-bg);
+  --color-badge-info-fg: var(--color-status-info-fg);
+  --color-badge-neutral-bg: var(--color-status-neutral-bg);
+  --color-badge-neutral-fg: var(--color-status-neutral-fg);
+
+  /* ======================================================================
+     4. SPACING (12) — literal pixel names, verbatim from Figma
+     ====================================================================== */
+
+  --spacing-0: 0px;
+  --spacing-2: 2px;
+  --spacing-4: 4px;
+  --spacing-8: 8px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-20: 20px;
+  --spacing-24: 24px;
+  --spacing-32: 32px;
+  --spacing-40: 40px;
+  --spacing-48: 48px;
+  --spacing-64: 64px;
+
+  /* Sizes the design uses that are not on the spacing scale. These are
+     component dimensions from Figma's Size collection, kept here so a class
+     name always equals its pixel value. */
+  --spacing-44: 44px; /* size/control/lg */
+  --spacing-36: 36px; /* KPI Card icon badge */
+  --spacing-72: 72px; /* size/sidebar/collapsed */
+  --spacing-160: 160px; /* Asset Card image band */
+  --spacing-200: 200px; /* Catalogue select fields */
+  --spacing-240: 240px; /* size/sidebar/width */
+  --spacing-300: 300px; /* Asset Card width */
+  --spacing-360: 360px; /* Catalogue search field */
+  --spacing-380: 380px; /* Toast width */
+  --spacing-440: 440px; /* size/modal/sm */
+  --spacing-520: 520px; /* size/modal/md */
+
+  /* ======================================================================
+     5. RADIUS (9)
+     ====================================================================== */
+
+  --radius-6: 6px;
+  --radius-8: 8px;
+  --radius-9: 9px;
+  --radius-10: 10px;
+  --radius-12: 12px;
+  --radius-14: 14px;
+  --radius-16: 16px;
+  --radius-18: 18px;
+  --radius-pill: 999px;
+
+  /* ======================================================================
+     6. SIZE (12)
+     ====================================================================== */
+
+  --size-control-sm: 32px;
+  --size-control-md: 40px;
+  --size-control-lg: 44px;
+  --size-icon-sm: 16px;
+  --size-icon-md: 20px;
+  --size-icon-lg: 24px;
+  --size-sidebar-width: 240px;
+  --size-sidebar-collapsed: 72px;
+  --size-modal-sm: 440px;
+  --size-modal-md: 520px;
+  --border-width-default: 1px;
+  --border-width-focus: 2px;
+
+  /* ======================================================================
+     7. TYPOGRAPHY
+     Figma has no text styles and no typography variables — every size is
+     hard-coded on the node with lineHeight AUTO. These were extracted by
+     sweeping all TEXT nodes on the Foundations and Screens pages (the
+     Draft page's 8/9/10/13/15px sizes are scratch text, not tokens).
+     Line-heights are therefore our choice: 1.45 for captions, 1.5 for body.
+     ====================================================================== */
+
+  --font-sans: var(--font-inter), Inter, ui-sans-serif, system-ui, sans-serif;
+
+  --text-2xs: 11px;
+  --text-xs: 12px;
+  --text-sm: 14px; /* body — dominant size in the design */
+  --text-base: 16px;
+  --text-lg: 17px;
+  --text-xl: 18px;
+  --text-2xl: 20px;
+  --text-3xl: 25px;
+  --text-4xl: 28px;
+  --text-5xl: 38px; /* Foundations document title only */
+
+  --leading-2xs: 1.45;
+  --leading-xs: 1.45;
+  --leading-sm: 1.5;
+  --leading-base: 1.5;
+  --leading-lg: 1.45;
+  --leading-xl: 1.4;
+  --leading-2xl: 1.35;
+  --leading-3xl: 1.25;
+  --leading-4xl: 1.2;
+  --leading-5xl: 1.15;
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Default body styling — 14px Inter, matching the design's dominant text */
+  --text-body: var(--text-sm);
+  --text-body--line-height: var(--leading-sm);
+  --text-body--font-weight: var(--font-weight-regular);
+}
+
+/* --------------------------------------------------------------------------
+   Base element styling
+   -------------------------------------------------------------------------- */
+
+html {
+  background-color: var(--color-page-bg);
+}
+
+body {
+  background-color: var(--color-page-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  line-height: var(--leading-sm);
+  font-weight: var(--font-weight-regular);
+  -webkit-font-smoothing: antialiased;
+}
